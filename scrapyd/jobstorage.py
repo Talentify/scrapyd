@@ -1,5 +1,5 @@
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from zope.interface import implementer
 
@@ -50,6 +50,12 @@ class SqliteJobStorage(object):
         self.finished_to_keep = config.getint('finished_to_keep', 100)
 
     def add(self, job):
+        # Workaround to avoid error listing datetimes without milliseconds
+        if job.start_time.microsecond == 0:
+            job.start_time = job.start_time + timedelta(microseconds=1)
+        if job.end_time.microsecond == 0:
+            job.end_time = job.end_time + timedelta(microseconds=1)
+        # Workaround end
         self.jstorage.add(job)
         self.jstorage.clear(self.finished_to_keep)
 

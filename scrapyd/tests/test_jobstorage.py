@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from twisted.trial import unittest
 from zope.interface.verify import verifyObject
 
@@ -5,7 +7,7 @@ from scrapyd.config import Config
 from scrapyd.interfaces import IJobStorage
 from scrapyd.jobstorage import Job, MemoryJobStorage, SqliteJobStorage
 
-j1, j2, j3 = Job('p1', 's1'), Job('p2', 's2'), Job('p3', 's3')
+j1, j2, j3 = Job('p1', 's1'), Job('p2', 's2'), Job('p3', 's3', start_time=datetime.fromisotime('2022-10-02T15:05:11'))
 
 
 class MemoryJobStorageTest(unittest.TestCase):
